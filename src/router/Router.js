@@ -20,7 +20,7 @@ import { DefaultRoute, Routes } from './routes'
 // ** Layouts
 import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
-import HorizontalLayout from '@src/layouts/HorizontalLayout'
+// import HorizontalLayout from '@src/layouts/HorizontalLayout'
 
 const Router = () => {
   // ** Hooks
@@ -31,10 +31,12 @@ const Router = () => {
   const ability = useContext(AbilityContext)
 
   // ** Default Layout
-  const DefaultLayout = layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
+  // const DefaultLayout = layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
+  const DefaultLayout = 'VerticalLayout'
 
   // ** All of the available layouts
-  const Layouts = { BlankLayout, VerticalLayout, HorizontalLayout }
+  // const Layouts = { BlankLayout, VerticalLayout, HorizontalLayout }
+  const Layouts = { BlankLayout, VerticalLayout }
 
   // ** Current Active Item
   const currentActiveItem = null
@@ -74,6 +76,8 @@ const Router = () => {
       action = route.meta.action ? route.meta.action : null
       resource = route.meta.resource ? route.meta.resource : null
     }
+
+    console.log(`isUserLoggedIn()`, isUserLoggedIn())
 
     if (
       (!isUserLoggedIn() && route.meta === undefined) ||
