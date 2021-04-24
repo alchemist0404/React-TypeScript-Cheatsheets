@@ -1,75 +1,44 @@
-// ** React Imports
-import { useState, useEffect } from 'react'
-
 // ** Third Party Components
+import PropTypes from 'prop-types'
 import { Button } from 'reactstrap'
-import classnames from 'classnames'
+import Ripples from 'react-ripples'
 
-// ** Styles
-import './ripple-button.scss'
+// ** Theme Colors Object
+const baseColors = {
+  primary: 'rgba(115, 103, 240, .2)',
+  secondary: 'rgba(130, 134, 139, .2)',
+  success: 'rgba(40, 199, 111, .2)',
+  warning: 'rgba(255, 159, 67, .2)',
+  danger: 'rgba(234, 84, 85, .2)',
+  info: 'rgba(0, 207, 232, .2)',
+  dark: 'rgba(30, 30, 30, .2)',
+  light: 'rgba(246, 246, 246, .2)'
+}
 
-const RippleButton = ({ className, children, onClick, ...rest }) => {
-  // ** States
-  const [mounted, setMounted] = useState(false)
-  const [isRippling, setIsRippling] = useState(false)
-  const [coords, setCoords] = useState({ x: -1, y: -1 })
-
-  // ** Toggle mounted on mount & unmount
-  useEffect(() => {
-    setMounted(true)
-    return () => setMounted(false)
-  }, [])
-
-  // ** Check for coords and set ripple
-  useEffect(() => {
-    if (mounted) {
-      if (coords.x !== -1 && coords.y !== -1) {
-        setIsRippling(true)
-        setTimeout(() => setIsRippling(false), 500)
-      } else {
-        setIsRippling(false)
-      }
+const RippleButton = ({ color, className, during, outline, block, ...rest }) => {
+  // ** Return Button Color Based On Variant
+  const btnColor = () => {
+    if (outline) {
+      return baseColors[color]
+    } else if (color !== undefined && color.startsWith('flat')) {
+      return baseColors[color.substring(5)]
+    } else {
+      return 'rgba(255, 255, 255, .5)'
     }
-  }, [coords])
-
-  // ** Reset Coords on ripple end
-  useEffect(() => {
-    if (mounted) {
-      if (!isRippling) setCoords({ x: -1, y: -1 })
-    }
-  }, [isRippling])
+  }
 
   return (
-    <Button
-      className={classnames('waves-effect', {
-        [className]: className
-      })}
-      onClick={e => {
-        const rect = e.target.getBoundingClientRect()
-        setCoords({ x: e.clientX - rect.left, y: e.clientY - rect.top })
-        if (onClick) {
-          onClick(e)
-        }
-      }}
-      {...rest}
-    >
-      {children}
-      {isRippling ? (
-        <span
-          className='waves-ripple'
-          style={{
-            left: coords.x,
-            top: coords.y
-          }}
-        ></span>
-      ) : null}
-    </Button>
+    <Ripples color={btnColor()} during={during} className={`${block ? 'd-block' : ''}`}>
+      <Button className={className} color={color} block={block} outline={outline} {...rest} />
+    </Ripples>
   )
 }
 
 // ** PropTypes
 RippleButton.propTypes = {
-  ...Button.propTypes
+  ...Button.propTypes,
+  rippleColor: PropTypes.string,
+  during: PropTypes.number
 }
 
 Button.Ripple = RippleButton

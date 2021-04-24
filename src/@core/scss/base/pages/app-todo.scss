@@ -97,7 +97,7 @@
       // ToDo task list area
       .todo-task-list-wrapper {
         position: relative;
-        height: calc(100% - 3.56rem); // ? search box height (3.49rem) + 1px bottom border till 2 decimals
+        height: calc(100% - 3.49rem); // ? search box height (3.49rem)
         background-color: $white;
         border-radius: 0;
         .todo-task-list {
@@ -294,7 +294,4 @@
   .todo-application .content-area-wrapper .sidebar .todo-sidebar {
     width: 230px;
   }
-}
-.horizontal-menu .todo-application .content-area-wrapper .content-right .todo-task-list-wrapper {
-  height: calc(100% - 3.6rem); // ? search box height (48.79px + 1px border = 3.56), horizontal needs 1 decimal point
 }

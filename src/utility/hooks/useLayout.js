@@ -6,7 +6,7 @@ import themeConfig from '@configs/themeConfig'
 
 export const useLayout = () => {
   // ** States
-  // const [lastLayout, setLastLayout] = useState(null)
+  const [lastLayout, setLastLayout] = useState(null)
   const [layout, setLayout] = useState(() => {
     try {
       return themeConfig.layout.type
@@ -31,27 +31,27 @@ export const useLayout = () => {
     }
   }
 
-  // const handleLayout = () => {
-  //   // ** If layout is horizontal & screen size is equals to or below 1200
-  //   if (layout === 'horizontal' && window.innerWidth <= 1200) {
-  //     setLayout('vertical')
-  //     setLastLayout('horizontal')
-  //   }
-  //   // ** If lastLayout is horizontal & screen size is equals to or above 1200
-  //   if (lastLayout === 'horizontal' && window.innerWidth >= 1200) {
-  //     setLayout('horizontal')
-  //   }
-  // }
+  const handleLayout = () => {
+    // ** If layout is horizontal & screen size is equals to or below 1200
+    if (layout === 'horizontal' && window.innerWidth <= 1200) {
+      setLayout('vertical')
+      setLastLayout('horizontal')
+    }
+    // ** If lastLayout is horizontal & screen size is equals to or above 1200
+    if (lastLayout === 'horizontal' && window.innerWidth >= 1200) {
+      setLayout('horizontal')
+    }
+  }
 
   // ** ComponentDidMount
   useEffect(() => {
-    // handleLayout()
+    handleLayout()
   }, [])
 
-  // useEffect(() => {
+  useEffect(() => {
     // ** Window Resize Event
-    // window.addEventListener('resize', handleLayout)
-  // }, [layout, lastLayout])
+    window.addEventListener('resize', handleLayout)
+  }, [layout, lastLayout])
 
   return [layout, setValue]
 }

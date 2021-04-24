@@ -1,18 +1,10 @@
-// ** UseJWT import to get config
-import useJwt from '@src/auth/jwt/useJwt'
-
-const config = useJwt.jwtConfig
-
+import useJwt from '../../../@core/auth/jwt/jwtDefaultConfig'
 // ** Handle User Login
 export const handleLogin = data => {
   return dispatch => {
-    dispatch({
-      type: 'LOGIN',
-      data,
-      config
-    })
+    dispatch({ type: 'LOGIN', data })
 
-    // ** Add to user, accessToken & refreshToken to localStorage
+    // ** Add to user to localStorage
     localStorage.setItem('userData', JSON.stringify(data))
   }
 }
@@ -20,11 +12,11 @@ export const handleLogin = data => {
 // ** Handle User Logout
 export const handleLogout = () => {
   return dispatch => {
-    dispatch({ type: 'LOGOUT', [config.storageTokenKeyName]: null, [config.storageRefreshTokenKeyName]: null })
-
-    // ** Remove user, accessToken & refreshToken from localStorage
+    dispatch({ type: 'LOGOUT' })
+    
+    // ** Remove user from localStorage
     localStorage.removeItem('userData')
-    localStorage.removeItem(config.storageTokenKeyName)
-    localStorage.removeItem(config.storageRefreshTokenKeyName)
+    localStorage.removeItem(useJwt.storageTokenKeyName)
+    localStorage.removeItem(useJwt.storageRefreshTokenKeyName)
   }
 }

@@ -3,8 +3,9 @@
 //Template config options
 const themeConfig = {
   app: {
-    appName: 'Vuexy',
-    appLogoImage: require('@src/assets/images/logo/logo.svg').default
+    appName: 'Pharao´s world',
+    appLogoImage: require('@src/assets/images/logo/logo.svg').default,
+    token: 'pharoh-world'
   },
   layout: {
     isRTL: false,

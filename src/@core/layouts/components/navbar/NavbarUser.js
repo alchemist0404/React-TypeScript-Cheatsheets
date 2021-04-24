@@ -1,15 +1,15 @@
 // ** Dropdowns Imports
-import IntlDropdown from './IntlDropdown'
+import { Fragment } from 'react'
+
 import UserDropdown from './UserDropdown'
-import NavbarSearch from './NavbarSearch'
 
 // ** Third Party Components
-import { Sun, Moon } from 'react-feather'
+import { Sun, Moon, Menu } from 'react-feather'
 import { NavItem, NavLink } from 'reactstrap'
 
 const NavbarUser = props => {
   // ** Props
-  const { skin, setSkin } = props
+  const { skin, setSkin, setMenuVisibility } = props
 
   // ** Function to toggle Theme (Light/Dark)
   const ThemeToggler = () => {
@@ -21,16 +21,25 @@ const NavbarUser = props => {
   }
 
   return (
-    <ul className='nav navbar-nav align-items-center ml-auto'>
-      <IntlDropdown />
-      <NavItem className='d-none d-lg-block'>
-        <NavLink className='nav-link-style'>
-          <ThemeToggler />
-        </NavLink>
-      </NavItem>
-      <NavbarSearch />
-      <UserDropdown />
-    </ul>
+    <Fragment>
+      <ul className='navbar-nav d-xl-none d-flex align-items-center'>
+        <NavItem className='mobile-menu mr-auto'>
+          <NavLink className='nav-menu-main menu-toggle hidden-xs is-active' onClick={() => setMenuVisibility(true)}>
+            <Menu className='ficon' />
+          </NavLink>
+        </NavItem>
+      </ul>
+      <div className='bookmark-wrapper d-flex align-items-center'>
+        <NavItem className='d-none d-lg-block'>
+          <NavLink className='nav-link-style'>
+            <ThemeToggler />
+          </NavLink>
+        </NavItem>
+      </div>
+      <ul className='nav navbar-nav align-items-center ml-auto'>
+        <UserDropdown />
+      </ul>
+    </Fragment>
   )
 }
 export default NavbarUser

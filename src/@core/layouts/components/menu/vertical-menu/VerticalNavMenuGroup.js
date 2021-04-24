@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom'
 // ** Third Party Components
 import classnames from 'classnames'
 import { Collapse, Badge } from 'reactstrap'
-import { FormattedMessage } from 'react-intl'
 
 // ** Vertical Menu Items Component
 import VerticalNavMenuItems from './VerticalNavMenuItems'
@@ -107,9 +106,7 @@ const VerticalNavMenuGroup = ({
     >
       <Link className='d-flex align-items-center' to='/' onClick={e => onCollapseClick(e, item)}>
         {item.icon}
-        <span className='menu-title text-truncate'>
-          <FormattedMessage id={item.title} />
-        </span>
+        <span className='menu-title text-truncate'>{item.title}</span>
 
         {item.badge && item.badgeText ? (
           <Badge className='ml-auto mr-1' color={item.badge} pill>

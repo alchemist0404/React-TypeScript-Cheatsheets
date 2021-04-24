@@ -1,7 +1,7 @@
 // ** React Imports
 import { Fragment, useEffect, useState, useRef } from 'react'
 import ReactDOM from 'react-dom'
-import { useHistory } from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 // ** Third Party Components
 import PropTypes from 'prop-types'
@@ -24,12 +24,12 @@ const Autocomplete = props => {
 
   // ** States
   const [focused, setFocused] = useState(false)
+  const [redirect, setRedirect] = useState(null)
   const [activeSuggestion, setActiveSuggestion] = useState(0)
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [userInput, setUserInput] = useState(props.value ? props.value : '')
 
   // ** Vars
-  const history = useHistory()
   let filteredData = []
 
   // ** Suggestion Item Click Event
@@ -38,7 +38,9 @@ const Autocomplete = props => {
     setShowSuggestions(false)
     setUserInput(filteredData[activeSuggestion][props.filterKey])
     if (url !== undefined && url !== null) {
-      history.push(url)
+      setRedirect(url)
+    } else {
+      setRedirect(null)
     }
 
     if (props.onSuggestionClick) {
@@ -302,6 +304,11 @@ const Autocomplete = props => {
         {renderSuggestions()}
       </PerfectScrollbar>
     )
+  }
+
+  // ** Redirect User To Route If Redirect Has Valid Value
+  if (redirect !== null && redirect !== undefined && redirect.length) {
+    return <Redirect to={redirect} />
   }
 
   return (

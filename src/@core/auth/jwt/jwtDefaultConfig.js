@@ -1,15 +1,16 @@
 // ** Auth Endpoints
+const url = 'http://h2931731.stratoserver.net'
+const test = 'http://localhost:20127'
 export default {
-  loginEndpoint: '/jwt/login',
-  registerEndpoint: '/jwt/register',
-  refreshEndpoint: '/jwt/refresh-token',
-  logoutEndpoint: '/jwt/logout',
-
-  // ** This will be prefixed in authorization header with token
-  // ? e.g. Authorization: Bearer <token>
+  loginEndpoint: 'users/login',
+  registerEndpoint: 'users/register',
+  refreshEndpoint: 'users/refresh-token',
+  logoutEndpoint: 'users/logout',
+  
   tokenType: 'Bearer',
-
-  // ** Value of this property will be used as key to store JWT token in storage
   storageTokenKeyName: 'accessToken',
-  storageRefreshTokenKeyName: 'refreshToken'
+  storageRefreshTokenKeyName: 'refreshToken',
+  Socket: null,
+  apiUrl: `${test}/admin/`,
+  Domain: `${test}`
 }

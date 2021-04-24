@@ -5,7 +5,6 @@ import { NavLink, useLocation, matchPath, useParams } from 'react-router-dom'
 // ** Third Party Components
 import { Badge } from 'reactstrap'
 import classnames from 'classnames'
-import { FormattedMessage } from 'react-intl'
 
 // ** Vertical Menu Array Of Items
 import navigation from '@src/navigation/vertical'
@@ -105,9 +104,7 @@ const VerticalNavMenuLink = ({
         }}
       >
         {item.icon}
-        <span className='menu-item text-truncate'>
-          <FormattedMessage id={item.title} />
-        </span>
+        <span className='menu-item text-truncate'>{item.title}</span>
 
         {item.badge && item.badgeText ? (
           <Badge className='ml-auto mr-1' color={item.badge} pill>

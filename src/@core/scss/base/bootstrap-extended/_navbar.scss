@@ -148,7 +148,7 @@
         &.dropdown {
           .dropdown-menu {
             .vertical-layout & {
-              top: 41px !important; // Apply navbar dd position on vertical layouts only (Not for horizontal layout due to hover out issue)
+              top: 48px !important; // Apply navbar dd position on vertical layouts only (Not for horizontal layout due to hover out issue)
             }
           }
         }

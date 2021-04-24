@@ -111,9 +111,6 @@
   .ql-stroke {
     stroke: $primary !important;
   }
-  .ql-fill {
-    fill: $primary !important;
-  }
 }
 // fill options color
 .ql-fill {
@@ -167,14 +164,7 @@
       }
     }
   }
-  .ql-active {
-    .ql-stroke {
-      stroke: $primary !important;
-    }
-    .ql-fill {
-      fill: $primary !important;
-    }
-  }
+
   .ql-bubble {
     .ql-toolbar {
       background: $theme-dark-border-color;

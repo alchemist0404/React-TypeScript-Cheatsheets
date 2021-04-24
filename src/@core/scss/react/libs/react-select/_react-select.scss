@@ -1,13 +1,6 @@
 @import '../../../base/bootstrap-extended/include';
 @import '../../../base/components/include';
 
-// InValid Select
-.react-select.is-invalid {
-  .select__control {
-    border-color: $danger;
-  }
-}
-
 // Select Control(Input)
 .select__control,
 .react-select__control {

@@ -1,19 +1,27 @@
-// ** Routes Imports
-import ChartMapsRoutes from './ChartsMaps'
+import { lazy } from 'react'
 import DashboardRoutes from './Dashboards'
-import AuthRoutes from './Auths'
 
-// ** Document title
-const TemplateTitle = '%s - Myyaak AR app Admin'
+const Title = 'Pharao´s world'
 
-// ** Default Route
-const DefaultRoute = '/dashboard/ecommerce'
+const DefaultRoute = '/dashboard'
 
-// ** Merge Routes
 const Routes = [
   ...DashboardRoutes,
-  ...ChartMapsRoutes,
-  ...AuthRoutes
+  {
+    path: '/login',
+    component: lazy(() => import('../../views/authentication/Login')),
+    layout: 'BlankLayout'
+  },
+  {
+    path: '/register',
+    component: lazy(() => import('../../views/authentication/Register')),
+    layout: 'BlankLayout'
+  },
+  {
+    path: '/error',
+    component: lazy(() => import('../../views/Error')),
+    layout: 'BlankLayout'
+  }
 ]
 
-export { DefaultRoute, TemplateTitle, Routes }
+export { DefaultRoute, Title, Routes }

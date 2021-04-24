@@ -90,7 +90,6 @@ $chat-profile-sidebar-head-height: 200px;
 
   // Main Sidebar Content
   .sidebar-content {
-    background-color: $white;
     border-right: 1px solid $border-color;
     height: inherit;
     width: $chat-sidebar-width;
@@ -200,6 +199,9 @@ $chat-profile-sidebar-head-height: 200px;
           border: 2px solid $white;
         }
       }
+    }
+    .card {
+      margin-bottom: 0;
     }
   }
 

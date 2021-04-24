@@ -4,9 +4,12 @@ import { Fragment, useState, useEffect } from 'react'
 // ** Third Party Components
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
-import UiLoader from '@components/ui-loader'
+import BlockUi from 'react-block-ui'
 import { ChevronDown, RotateCw, X } from 'react-feather'
 import { Card, CardHeader, CardTitle, Collapse, Spinner } from 'reactstrap'
+
+// ** Styles
+import 'react-block-ui/style.css'
 
 const CardActions = props => {
   // ** Props
@@ -82,14 +85,16 @@ const CardActions = props => {
   const CollapseWrapper = actions === 'collapse' || actions.includes('collapse') ? Collapse : Fragment
 
   // ** If user passes reload action then return <BlockUi> as Wrapper else return <Fragment>
-  const BlockUiWrapper = actions === 'reload' || actions.includes('reload') ? UiLoader : Fragment
+  const BlockUiWrapper = actions === 'reload' || actions.includes('reload') ? BlockUi : Fragment
 
   return (
     <BlockUiWrapper
       /*eslint-disable */
       {...(actions === 'reload' || actions.includes('reload')
         ? {
-            blocking: reload
+            blocking: reload,
+            className: 'reload-wrapper',
+            loader: <Spinner color='primary' className='reload-spinner' />
           }
         : {})}
       /*eslint-enable */
@@ -116,9 +121,9 @@ export default CardActions
 // ** PropTypes
 CardActions.propTypes = {
   title: PropTypes.string.isRequired,
-  collapseIcon: PropTypes.any,
-  removeIcon: PropTypes.any,
-  reloadIcon: PropTypes.any,
+  collapseIcon: PropTypes.string,
+  removeIcon: PropTypes.string,
+  reloadIcon: PropTypes.string,
   actions: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.string)]).isRequired,
   endReload(props) {
     // ** User passes reload action and doesn't pass endReload then return Error

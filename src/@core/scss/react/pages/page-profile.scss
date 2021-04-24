@@ -6,19 +6,12 @@
 #user-profile {
   .profile-load-more {
     position: relative;
-    overflow: hidden;
-    .ui-loader {
+    .block-ui {
       position: unset;
-      .overlay {
-        left: 0;
-      }
-      .loader {
-        top: 60%;
-      }
-      .spinner-border {
-        width: 20px;
-        height: 20px;
-      }
+      min-height: auto;
+    }
+    .block-ui-overlay {
+      background: rgba($color: $white, $alpha: 0.8);
     }
   }
 }

@@ -234,7 +234,6 @@ $fc-day-toggle-btn-padding: 0.55rem 1.5rem;
 .app-calendar {
   position: relative;
   border-radius: $card-border-radius;
-  margin-bottom: 2rem;
   .app-calendar-sidebar {
     position: absolute;
     left: calc(-#{$fc-sidebar-width} - 1.2rem);

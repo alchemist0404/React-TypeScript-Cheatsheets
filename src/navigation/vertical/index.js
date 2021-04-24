@@ -1,6 +1,10 @@
-// ** Navigation sections imports
-import dashboards from './dashboards'
-import chartsAndMaps from './charts-maps'
+import { Home, User, Circle, Gift, Grid } from 'react-feather'
 
-// ** Merge & Export
-export default [...dashboards, ...chartsAndMaps]
+export default [
+  {
+    id: 'dashboards',
+    title: 'Dashboards',
+    icon: <Home />,
+    navLink: '/dashboard'
+  }
+]

@@ -3,13 +3,6 @@
 
 @import '../../base/pages/app-email.scss';
 
-// For editor height
-.email-application {
-  #message-editor .rdw-editor-main {
-    min-height: 17.9rem;
-  }
-}
-
 html[dir='rtl'] {
   .email-application {
     .email-app-details .email-detail-header {

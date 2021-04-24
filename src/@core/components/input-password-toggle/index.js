@@ -5,22 +5,11 @@ import { Fragment, useState } from 'react'
 import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { Eye, EyeOff } from 'react-feather'
-import { InputGroup, InputGroupAddon, Input, InputGroupText, Label, inputClassName } from 'reactstrap'
+import { InputGroup, InputGroupAddon, Input, InputGroupText, Label } from 'reactstrap'
 
 const InputPasswordToggle = props => {
   // ** Props
-  const {
-    label,
-    hideIcon,
-    showIcon,
-    visible,
-    className,
-    htmlFor,
-    placeholder,
-    iconSize,
-    inputClassName,
-    ...rest
-  } = props
+  const { label, hideIcon, showIcon, visible, className, htmlFor, placeholder, iconSize, ...rest } = props
 
   // ** State
   const [inputVisibility, setInputVisibility] = useState(visible)
@@ -47,9 +36,6 @@ const InputPasswordToggle = props => {
         <Input
           type={inputVisibility === false ? 'password' : 'text'}
           placeholder={placeholder ? placeholder : '············'}
-          className={classnames({
-            [inputClassName]: inputClassName
-          })}
           /*eslint-disable */
           {...(label && htmlFor
             ? {
@@ -77,7 +63,6 @@ InputPasswordToggle.propTypes = {
   className: PropTypes.string,
   placeholder: PropTypes.string,
   iconSize: PropTypes.number,
-  inputClassName: PropTypes.string,
   label(props, propName, componentName) {
     // ** If label is defined and htmlFor is undefined throw error
     if (props[propName] && props['htmlFor'] === 'undefined') {
