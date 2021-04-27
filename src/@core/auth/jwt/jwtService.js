@@ -10,11 +10,11 @@ export default class JwtService {
     axios.interceptors.request.use(
       config => {
         config.baseURL = jwtDefaultConfig.apiUrl
-        const accessToken = this.getToken()
-        if (accessToken) {
-          config.headers.authorization = `${this.jwtConfig.tokenType} ${accessToken}`
-          config.headers.role = 'admin'
-        }
+        // const accessToken = this.getToken()
+        // if (accessToken) {
+        //   config.headers.authorization = `${this.jwtConfig.tokenType} ${accessToken}`
+        //   config.headers.role = 'admin'
+        // }
         return config
       },
       error => Promise.reject(error)
@@ -26,15 +26,15 @@ export default class JwtService {
         const { config, response } = error
         const originalRequest = config
         if (response && response.status === 401) {
-          if (!this.isAlreadyFetchingAccessToken) {
-            this.isAlreadyFetchingAccessToken = true
-            this.refreshToken().then(r => {
-              this.isAlreadyFetchingAccessToken = false
-              this.setToken(r.data.accessToken)
-              this.setRefreshToken(r.data.refreshToken)
-              this.onAccessTokenFetched(r.data.accessToken)
-            })
-          }
+          // if (!this.isAlreadyFetchingAccessToken) {
+          //   this.isAlreadyFetchingAccessToken = true
+          //   this.refreshToken().then(r => {
+          //     this.isAlreadyFetchingAccessToken = false
+          //     this.setToken(r.data.accessToken)
+          //     this.setRefreshToken(r.data.refreshToken)
+          //     this.onAccessTokenFetched(r.data.accessToken)
+          //   })
+          // }
           const retryOriginalRequest = new Promise(resolve => {
             this.addSubscriber(accessToken => {
               originalRequest.headers.authorization = `${this.jwtConfig.tokenType} ${accessToken}`
@@ -76,13 +76,21 @@ export default class JwtService {
     return axios.post(this.jwtConfig.loginEndpoint, ...args)
   }
 
-  register(...args) {
-    return axios.post(this.jwtConfig.registerEndpoint, ...args)
-  }
-
   refreshToken() {
     return axios.post(this.jwtConfig.refreshEndpoint, {
       refreshToken: this.getRefreshToken()
     })
+  }
+
+  addTask(...args) {
+    return axios.post(this.jwtConfig.addTaskEndpoint, ...args)
+  }
+
+  getTasks(...args) {
+    return axios.post(this.jwtConfig.getTasksEndpoint, ...args)
+  }
+  
+  deleteTask(...args) {
+    return axios.post(this.jwtConfig.deleteTaskEndpoint, ...args)
   }
 }

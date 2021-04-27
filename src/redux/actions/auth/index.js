@@ -16,7 +16,5 @@ export const handleLogout = () => {
     
     // ** Remove user from localStorage
     localStorage.removeItem('userData')
-    localStorage.removeItem(useJwt.storageTokenKeyName)
-    localStorage.removeItem(useJwt.storageRefreshTokenKeyName)
   }
 }

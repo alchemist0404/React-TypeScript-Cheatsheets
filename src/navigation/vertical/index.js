@@ -1,4 +1,4 @@
-import { Home, User, Circle, Gift, Grid } from 'react-feather'
+import { Home, User, Circle, Gift, Grid, Map } from 'react-feather'
 
 export default [
   {
@@ -6,5 +6,11 @@ export default [
     title: 'Dashboards',
     icon: <Home />,
     navLink: '/dashboard'
+  },
+  {
+    id: 'task',
+    title: 'Tasks',
+    icon: <Map />,
+    navLink: '/tasks'
   }
 ]

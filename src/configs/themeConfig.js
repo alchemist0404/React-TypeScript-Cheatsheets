@@ -3,9 +3,9 @@
 //Template config options
 const themeConfig = {
   app: {
-    appName: 'Pharao´s world',
+    appName: 'Myyaak',
     appLogoImage: require('@src/assets/images/logo/logo.svg').default,
-    token: 'pharoh-world'
+    token: 'myyaak'
   },
   layout: {
     isRTL: false,
@@ -23,7 +23,7 @@ const themeConfig = {
       backgroundColor: 'white' // BS color options [primary, success, etc]
     },
     footer: {
-      type: 'static' // static, sticky, hidden
+      type: 'hidden' // static, sticky, hidden
     },
     customizer: false,
     scrollTop: true // Enable scroll to top button
