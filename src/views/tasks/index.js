@@ -3,50 +3,41 @@ import { Button, CustomInput, Form, FormGroup, Input, Label, Row } from "reactst
 import DataTable from "react-data-table-component"
 import { ChevronDown, Trash2 } from "react-feather"
 import ReactPaginate from "react-paginate"
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
+import MapGL, {Marker, NavigationControl} from 'react-map-gl';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import useJwt from '@src/auth/jwt/useJwt'
-import L from 'leaflet'
 import MarkerLogo from '../../assets/images/pages/marker.png'
 import Col from "reactstrap/lib/Col"
 import Toasts from '../Toasts'
 import { Slide, toast } from "react-toastify"
 import jwtDefaultConfig from '@src/@core/auth/jwt/jwtDefaultConfig'
 
+const accessToken = "pk.eyJ1IjoibWFsZXRpZ2VyIiwiYSI6ImNrbjQ5eGMxcTA0dDIydm9mbjY4Zm8wOHMifQ.TWABwlDJkdgUACO1DMeBPw"
 
 const Tasks = () => {
   const [showAllTasks, setShowAllTasks] = useState(false)
   const [data, setData] = useState([])
-  const [allMarkers, setAllMarkers] = useState([])
   const [taskName, setTaskName] = useState("")
   const [taskFile, setTaskFile] = useState(undefined)
   const [perPage] = useState(10)
   const [currentPage, setCurrentPage] = useState(0)
-  const [center, setCenter] = useState({
-    lat: -33.85737747155127,
-    lng: 151.21532678604126
+  const [viewport, setViewport] = useState({
+    longitude: 151.21490299701586,
+    latitude: -33.857362785537184,
+    zoom: 16,
+    bearing: 0,
+    pitch: 0
   })
   const [marker, setMarker] = useState({
-    lat: -33.85737747155127,
-    lng: 151.21532678604126
+    longitude: 151.21490299701586,
+    latitude: -33.857362785537184
   })
-
-  const refreshAllMakers = (data) => {
-    const allTasks = []
-    for (let i = 0; i < data.length; i++) {
-      const markerPosition = []
-      markerPosition.push(data[i].task_position.lat)
-      markerPosition.push(data[i].task_position.lng)
-      allTasks.push({markerPosition})
-    }
-    setAllMarkers(allTasks)
-  }
 
   const deleteTask = (_id) => {
     useJwt.deleteTask({_id}).then(({data})  => {
       if (data.status === true) {
         toast.success(Toasts.SuccessToast("The task is deleted successfully!"), { transition: Slide, hideProgressBar: true, autoClose: 2000 })
         setData(data.data)
-        refreshAllMakers(data.data)
       } else {
         toast.error(Toasts.ErrorToast(data.data), { transition: Slide, hideProgressBar: true, autoClose: 2000 })
       }
@@ -61,21 +52,21 @@ const Tasks = () => {
       minWidth: '50px'
     },
     {
-      name: 'Latitude',
-      selector: 'lat',
-      sortable: true,
-      minWidth: '100px',
-      cell: row => (
-        <div>{`${row.task_position.lat}`}</div>
-      )
-    },
-    {
       name: 'Longitude',
       selector: 'lng',
       sortable: true,
       minWidth: '100px',
       cell: row => (
         <div>{`${row.task_position.lng}`}</div>
+      )
+    },
+    {
+      name: 'Latitude',
+      selector: 'lat',
+      sortable: true,
+      minWidth: '100px',
+      cell: row => (
+        <div>{`${row.task_position.lat}`}</div>
       )
     },
     {
@@ -101,29 +92,18 @@ const Tasks = () => {
     }
   ])
 
-  const refmarker = useRef()
-
   const handlePagination = page => {
     setCurrentPage(page.selected)
   }
 
   const handleShowAllTasks = () => {
     setShowAllTasks(!showAllTasks)
-    refreshAllMakers(data)
-  }
-
-  const updateMarkerPosition = () => {
-    const marker = refmarker.current
-    if (marker !== null) {
-      setMarker(marker.leafletElement.getLatLng())
-    }
   }
 
   const addTask = (e) => {
     e.preventDefault();
-    const marker = refmarker.current
     const taskData = new FormData()
-    taskData.append("position", JSON.stringify({lat: marker._latlng.lat, lng: marker._latlng.lng}))
+    taskData.append("position", JSON.stringify({lat: marker.latitude, lng: marker.longitude}))
     taskData.append("taskName", taskName)
     taskData.append("taskFile", taskFile)
     
@@ -131,7 +111,6 @@ const Tasks = () => {
       if (data.status === true) {
         toast.success(Toasts.SuccessToast("Task is added successfully!"), { transition: Slide, hideProgressBar: true, autoClose: 2000 })
         setData(data.data)
-        refreshAllMakers(data.data)
       } else {
         toast.error(Toasts.ErrorToast(data.data), { transition: Slide, hideProgressBar: true, autoClose: 2000 })
       }
@@ -142,18 +121,27 @@ const Tasks = () => {
     useJwt.getTasks().then(({data}) => {
       if (data.status === true) {
         setData(data.data)
-        // if (data.data.length > 0) {
-        //   setCenter(data.data[0].task_position)
-        // }
+        if (data.data.length > 0) {
+          setViewport({
+            ...viewport,
+            latitude: data.data[0].task_position.lat,
+            longitude: data.data[0].task_position.lng
+          })
+          setMarker({
+            latitude: data.data[0].task_position.lat,
+            longitude: data.data[0].task_position.lng
+          })
+        }
       }
     }).catch((err) => { console.log(`err`, err) });
   }, [])
-  
-  const MarkerIcon = L.icon({
-    iconUrl: MarkerLogo,
 
-    iconSize:     [43, 60] // size of the icon
-  });
+  const onMarkerDragEnd = (e) => {
+    setMarker({
+      longitude: e.lngLat[0],
+      latitude: e.lngLat[1]
+    })
+  }
 
   const CustomPagination = () => (
     <ReactPaginate
@@ -178,26 +166,37 @@ const Tasks = () => {
     />
   )
 
-  const position = [center.lat, center.lng]
-  const markerPosition = [marker.lat, marker.lng]
-
   return (
     <div className='misc-wrapper'>
-      <div className="w-100 mb-1 position-relative" style={{height: "400px"}}>
+      <div className="w-100 mb-1 position-relative" style={{height: "400px", overflow: "hidden", borderRadius: 10}}>
         <Button color="primary" className="position-absolute" style={{zIndex: 999, right: 10, top: 10}} onClick={() => handleShowAllTasks()}>{showAllTasks ? `Hide` : `Show all tasks`}</Button>
-        <MapContainer center={position} zoom={18} className='leaflet-map h-100'>
-          <TileLayer
-            attribution='&ampcopy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          />
+        <MapGL
+          {...viewport}
+          width="100%"
+          height="100%"
+          mapStyle="mapbox://styles/mapbox/streets-v9"
+          onViewportChange={setViewport}
+          mapboxApiAccessToken={accessToken}
+        >
           {
-            showAllTasks ? allMarkers.map((item, i) => (
-              <Marker key={i} icon={MarkerIcon} position={item.markerPosition}>
+            showAllTasks ? data.map((item, i) => (
+              <Marker
+                key={i}
+                longitude={item.task_position.lng}
+                latitude={item.task_position.lat}
+              >
+                <div style={{backgroundImage: `url(${MarkerLogo})`, width: 44, height: 58, backgroundRepeat:"no-repeat", backgroundSize: "contain"}}></div>
               </Marker>
-            )) : <Marker icon={MarkerIcon} draggable={true} dragend={updateMarkerPosition} position={markerPosition} ref={refmarker}>
-            </Marker>
+            )) : <Marker
+                longitude={marker.longitude}
+                latitude={marker.latitude}
+                draggable
+                onDragEnd={onMarkerDragEnd}
+              >
+                <div style={{backgroundImage: `url(${MarkerLogo})`, width: 44, height: 58, backgroundRepeat:"no-repeat", backgroundSize: "contain"}}></div>
+              </Marker>
           }
-        </MapContainer>
+        </MapGL>
       </div>
       {
         showAllTasks ? "" : <Form onSubmit={addTask}>
