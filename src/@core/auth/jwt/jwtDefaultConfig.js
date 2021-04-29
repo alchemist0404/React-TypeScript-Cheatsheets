@@ -13,6 +13,6 @@ export default {
   storageRefreshTokenKeyName: 'refreshToken',
   Socket: null,
   apiUrl: `${url}/admin/`,
-  fileUrl: `${url}/upload/`,
+  fileUrl: `${url}/`,
   Domain: `${url}`
 }

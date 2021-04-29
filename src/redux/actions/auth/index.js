@@ -1,11 +1,13 @@
 import useJwt from '../../../@core/auth/jwt/jwtDefaultConfig'
 // ** Handle User Login
 export const handleLogin = data => {
+  console.log(`data`, data)
   return dispatch => {
-    dispatch({ type: 'LOGIN', data })
+    dispatch({ type: 'LOGIN', data: data._doc })
 
     // ** Add to user to localStorage
-    localStorage.setItem('userData', JSON.stringify(data))
+    localStorage.setItem('userData', JSON.stringify(data._doc))
+    localStorage.setItem(useJwt.storageTokenKeyName, data.token)
   }
 }
 

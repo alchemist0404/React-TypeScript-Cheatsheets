@@ -10,11 +10,10 @@ export default class JwtService {
     axios.interceptors.request.use(
       config => {
         config.baseURL = jwtDefaultConfig.apiUrl
-        // const accessToken = this.getToken()
-        // if (accessToken) {
-        //   config.headers.authorization = `${this.jwtConfig.tokenType} ${accessToken}`
-        //   config.headers.role = 'admin'
-        // }
+        const accessToken = this.getToken()
+        if (accessToken) {
+          config.headers.user = JSON.stringify({ token: accessToken })
+        }
         return config
       },
       error => Promise.reject(error)
@@ -24,24 +23,7 @@ export default class JwtService {
       response => response,
       error => {
         const { config, response } = error
-        const originalRequest = config
         if (response && response.status === 401) {
-          // if (!this.isAlreadyFetchingAccessToken) {
-          //   this.isAlreadyFetchingAccessToken = true
-          //   this.refreshToken().then(r => {
-          //     this.isAlreadyFetchingAccessToken = false
-          //     this.setToken(r.data.accessToken)
-          //     this.setRefreshToken(r.data.refreshToken)
-          //     this.onAccessTokenFetched(r.data.accessToken)
-          //   })
-          // }
-          const retryOriginalRequest = new Promise(resolve => {
-            this.addSubscriber(accessToken => {
-              originalRequest.headers.authorization = `${this.jwtConfig.tokenType} ${accessToken}`
-              resolve(this.axios(originalRequest))
-            })
-          })
-          return retryOriginalRequest
         }
         return Promise.reject(error)
       }
