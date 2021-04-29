@@ -1,5 +1,6 @@
 import axios from 'axios'
 import jwtDefaultConfig from './jwtDefaultConfig'
+import { store } from '../../../redux/storeConfig/store'
 
 export default class JwtService {
   jwtConfig = { ...jwtDefaultConfig }
@@ -23,7 +24,18 @@ export default class JwtService {
       response => response,
       error => {
         const { config, response } = error
+        const originalRequest = config
         if (response && response.status === 401) {
+          store.dispatch({ type: 'LOGOUT' })
+          localStorage.removeItem('userData')
+          localStorage.removeItem('accessToken')
+          const retryOriginalRequest = new Promise(resolve => {
+            this.addSubscriber(accessToken => {
+              originalRequest.headers.authorization = `${this.jwtConfig.tokenType} ${accessToken}`
+              resolve(this.axios(originalRequest))
+            })
+          })
+          return retryOriginalRequest
         }
         return Promise.reject(error)
       }

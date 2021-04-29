@@ -1,4 +1,4 @@
-import { Suspense, useContext, lazy } from 'react'
+import { Suspense, useContext, lazy, useEffect } from 'react'
 import { isUserLoggedIn } from '@utils'
 import { useLayout } from '@hooks/useLayout'
 import { AbilityContext } from '@src/utility/context/Can'
@@ -8,10 +8,12 @@ import { BrowserRouter as AppRouter, Route, Switch, Redirect } from 'react-route
 import { DefaultRoute, Routes } from './routes'
 import BlankLayout from '@layouts/BlankLayout'
 import VerticalLayout from '@src/layouts/VerticalLayout'
+import { useSelector } from 'react-redux'
 
 const Router = () => {
   const [layout, setLayout] = useLayout()
   const [transition, setTransition] = useRouterTransition()
+  const { userData } = useSelector(state => state.auth)
   const ability = useContext(AbilityContext)
   // const DefaultLayout = layout === 'horizontal' ? 'HorizontalLayout' : 'VerticalLayout'
   // const Layouts = { BlankLayout, VerticalLayout, HorizontalLayout }
@@ -54,6 +56,10 @@ const Router = () => {
       return <route.component {...props} />
     }
   }
+
+  useEffect(() => {
+    console.log(userData)
+  }, [userData])
 
   const ResolveRoutes = () => {
     return Object.keys(Layouts).map((layout, index) => {
