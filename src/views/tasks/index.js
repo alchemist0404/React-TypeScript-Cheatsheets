@@ -205,33 +205,6 @@ const Tasks = () => {
     <div className='misc-wrapper'>
       <div className="w-100 mb-1 position-relative" style={{height: "400px", overflow: "hidden", borderRadius: 10}}>
         <Button color="primary" className="position-absolute" style={{zIndex: 999, right: 10, top: 10}} onClick={() => handleShowAllTasks()}>{showAllTasks ? `Hide` : `Show all tasks`}</Button>
-        {/* <MapGL
-          {...viewport}
-          width="100%"
-          height="100%"
-          mapStyle="mapbox://styles/mapbox/streets-v9"
-          onViewportChange={setViewport}
-          mapboxApiAccessToken={accessToken}
-        >
-          {
-            showAllTasks ? data.map((item, i) => (
-              <Marker
-                key={i}
-                longitude={item.task_position.lng}
-                latitude={item.task_position.lat}
-              >
-                <div style={{backgroundImage: `url(${MarkerLogo})`, width: 44, height: 58, backgroundRepeat:"no-repeat", backgroundSize: "contain"}}></div>
-              </Marker>
-            )) : <Marker
-                longitude={marker.longitude}
-                latitude={marker.latitude}
-                draggable
-                onDragEnd={onMarkerDragEnd}
-              >
-                <div style={{backgroundImage: `url(${MarkerLogo})`, width: 44, height: 58, backgroundRepeat:"no-repeat", backgroundSize: "contain"}}></div>
-              </Marker>
-          }
-        </MapGL> */}
         <div className="w-100 h-100" ref={mapContainer} />
       </div>
       {
