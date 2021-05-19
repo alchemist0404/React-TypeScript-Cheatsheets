@@ -8,6 +8,12 @@ export default [
     navLink: '/dashboard'
   },
   {
+    id: 'user',
+    title: 'Users',
+    icon: <User />,
+    navLink: '/users'
+  },
+  {
     id: 'task',
     title: 'Tasks',
     icon: <Map />,

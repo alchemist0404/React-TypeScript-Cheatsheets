@@ -2,7 +2,8 @@
 const url = process.env.NODE_ENV === 'production' ? 'https://vr.myyaak.com' : 'http://localhost:20127'
 export default {
   loginEndpoint: 'user/login',
-  refreshEndpoint: 'users/refresh-token',
+  refreshEndpoint: 'user/refresh-token',
+  getAllUsersEndpoint: 'user/getAllUsers',
   
   addTaskEndpoint: 'tasks/add',
   getTasksEndpoint: 'tasks/getTasks',

@@ -87,4 +87,8 @@ export default class JwtService {
   deleteTask(...args) {
     return axios.post(this.jwtConfig.deleteTaskEndpoint, ...args)
   }
+
+  getAllUsers(...args) {
+    return axios.post(this.jwtConfig.getAllUsersEndpoint, ...args)
+  }
 }

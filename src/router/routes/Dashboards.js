@@ -11,6 +11,11 @@ const DashboardRoutes = [
     path: '/tasks',
     component: lazy(() => import('../../views/tasks')),
     exact: true
+  },
+  {
+    path: '/users',
+    component: lazy(() => import('../../views/users')),
+    exact: true
   }
 ]
 
